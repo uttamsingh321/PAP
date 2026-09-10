@@ -258,9 +258,10 @@ def fetch_fpy_data(
         "projectNameList": filters.get('project_names', []) if filters else [],
         "queryType": "1",
         # Flag "0" = apply project filter; "1" = all projects.
-        # Must be "0" whenever ANY of project_names or work_orders is specified;
-        # "1" only when fetching everything (no restrictions).
-        "selectAllProjectFlag": "0" if filters and (filters.get('project_names') or filters.get('work_orders')) else "1",
+        # T-MOM REQUIRES projectNameList to be non-empty when flag="0".
+        # processGroup, orderType, orderCodeList are always applied by T-MOM
+        # regardless of the flag, so flag="1" is safe for those filters.
+        "selectAllProjectFlag": "0" if filters and filters.get('project_names') else "1",
         "startTime": start_time,
         "endTime": end_time,
         "workgroupCode": ""
@@ -270,7 +271,16 @@ def fetch_fpy_data(
     url = f"{_tmom_base_url()}{_tmom_fpy_endpoint()}"
     headers = _get_auth_headers(access_token)
     
-    logger.info(f"T-MOM FPY request started: {start_time} to {end_time}")
+    # Log the outgoing request (sanitized — never log tokens or passwords)
+    logger.info(
+        "T-MOM FPY request: method=POST endpoint=%s start=%s end=%s "
+        "processGroup=%s orderType=%s processCodes=%s workOrders=%s "
+        "projectNames=%s selectAllProjectFlag=%s",
+        _tmom_fpy_endpoint(), start_time, end_time,
+        payload.get("processGroup"), payload.get("orderType"),
+        payload.get("processCodeList"), payload.get("orderCodeList"),
+        payload.get("projectNameList"), payload.get("selectAllProjectFlag"),
+    )
     logger.info(f"Authorization header present: {'Authorization' in headers}")
     
     try:
@@ -284,13 +294,12 @@ def fetch_fpy_data(
                 verify=TMOM_VERIFY_SSL,
             )
         
-        logger.info(f"T-MOM FPY response status: {response.status_code}")
-        
         # Check for HTTP errors
         response.raise_for_status()
         
         # Parse response
         data = response.json()
+        logger.info(f"T-MOM FPY response status: {response.status_code} code={data.get('code')} success={data.get('success')}")
         
         # Validate T-MOM FPY response (code 200 + success not False).
         ok_code = str(data.get("code")) == "200"

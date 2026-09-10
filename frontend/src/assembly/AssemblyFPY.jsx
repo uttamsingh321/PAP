@@ -104,26 +104,62 @@ const EMPTY_FILTERS = {
     processName: "", projectName: "", workOrder: ""
 };
 
-// Date/time helpers: the backend expects "YYYY-MM-DD HH:mm:ss" while
-// <input type="datetime-local"> works with "YYYY-MM-DDTHH:mm".
+// Format helpers: 24-hour HH:MM:SS, backend format "YYYY-MM-DD HH:MM:SS"
+// <input type="datetime-local"> uses "YYYY-MM-DDTHH:MM" (no seconds).
 const toInputDT = (s) => (s ? s.replace(" ", "T").slice(0, 16) : "");
-const toApiDT = (v) => (v ? v.replace("T", " ") + (v.length === 16 ? ":00" : "") : "");
+const toApiDT = (v) => (v ? v.replace("T", " ") + ":00" : "");
+const fmt24 = (d) =>
+    String(d.getHours()).padStart(2, "0") + ":" +
+    String(d.getMinutes()).padStart(2, "0") + ":" +
+    String(d.getSeconds()).padStart(2, "0");
 
-// Default data window mirrors the T-MOM FPY report UI: a rolling 48-hour
-// window ending "now". It is sent explicitly on every request so the numbers
-// on screen always correspond to a visible, reproducible time window.
-function defaultWindow() {
+// Business day: 08:00 -> now.
+// If now >= 08:00  -> today 08:00:00 -> now
+// If now <  08:00  -> yesterday 08:00:00 -> now
+function businessDayWindow() {
+    const now = new Date();
+    const today8am = new Date(now);
+    today8am.setHours(8, 0, 0, 0);
+    const start = now >= today8am ? today8am : new Date(today8am.getTime() - 24 * 60 * 60 * 1000);
     const fmt = (d) =>
         d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" +
         String(d.getDate()).padStart(2, "0") + " " +
         String(d.getHours()).padStart(2, "0") + ":" +
-        String(d.getMinutes()).padStart(2, "0") + ":00";
-    const now = new Date();
-    return {
-        startTime: fmt(new Date(now.getTime() - 48 * 60 * 60 * 1000)),
-        endTime: fmt(now)
-    };
+        String(d.getMinutes()).padStart(2, "0") + ":" +
+        String(d.getSeconds()).padStart(2, "0");
+    return { startTime: fmt(start), endTime: fmt(now) };
 }
+
+// Default data window mirrors the T-MOM FPY report UI: business-day (08:00 -> now).
+// It is sent explicitly on every request so the numbers on screen always
+// correspond to a visible, reproducible time window.
+function defaultWindow() {
+    return businessDayWindow();
+}
+
+// "Last 2 Days": previous business-day boundary -> now (NOT simply 48 hours).
+function last2DaysWindow() {
+    const now = new Date();
+    const today8am = new Date(now);
+    today8am.setHours(8, 0, 0, 0);
+    let start;
+    if (now >= today8am) {
+        start = new Date(today8am.getTime() - 24 * 60 * 60 * 1000);
+    } else {
+        start = new Date(today8am.getTime() - 2 * 24 * 60 * 60 * 1000);
+    }
+    const fmt = (d) =>
+        d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" +
+        String(d.getDate()).padStart(2, "0") + " " +
+        String(d.getHours()).padStart(2, "0") + ":" +
+        String(d.getMinutes()).padStart(2, "0") + ":" +
+        String(d.getSeconds()).padStart(2, "0");
+    return { startTime: fmt(start), endTime: fmt(now) };
+}
+
+const fmtDateTime = (d) =>
+    d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" +
+    String(d.getDate()).padStart(2, "0") + " " + fmt24(d);
 
 // Full reset = empty dimension filters + a fresh default time window.
 const resetFilters = () => ({ ...EMPTY_FILTERS, ...defaultWindow() });
@@ -140,6 +176,13 @@ function AssemblyFPY() {
     // metadata) so the numbers on screen are tied to a visible window.
     const [queryWindow, setQueryWindow] = useState(null);
     const [filters, setFilters] = useState(resetFilters);
+    // Live clock: updates every second, 24-hour HH:MM:SS
+    const [liveClock, setLiveClock] = useState(fmt24(new Date()));
+    useEffect(() => {
+        const id = setInterval(() => setLiveClock(fmt24(new Date())), 1000);
+        return () => clearInterval(id);
+    }, []);
+
 
     // fetchData sends all active filters to Django → T-MOM. No client-side
     // re-filtering of a stale blob — every filter change hits the real API.
@@ -155,7 +198,7 @@ function AssemblyFPY() {
             if (result.status === "success") {
                 setData(result.data);
                 setApiStatus("connected");
-                setLastUpdated(new Date().toLocaleString());
+                setLastUpdated(fmtDateTime(new Date()));
                 if (result.metadata) {
                     setQueryWindow({ start: result.metadata.start_time, end: result.metadata.end_time });
                 }
@@ -249,6 +292,8 @@ function AssemblyFPY() {
                 <div className="fpy-header-actions">
                     <button className="fpy-btn fpy-btn-outline" onClick={clearAll}>Clear Filters</button>
                     <button className="fpy-btn fpy-btn-primary" onClick={() => fetchData(filters)}>Refresh</button>
+                    <button className="fpy-btn fpy-btn-outline" onClick={() => { const w = businessDayWindow(); setFilters({ ...filters, startTime: w.startTime, endTime: w.endTime }); fetchData({ ...filters, startTime: w.startTime, endTime: w.endTime }); }}>Today</button>
+                    <button className="fpy-btn fpy-btn-outline" onClick={() => { const w = last2DaysWindow(); setFilters({ ...filters, startTime: w.startTime, endTime: w.endTime }); fetchData({ ...filters, startTime: w.startTime, endTime: w.endTime }); }}>Last 2 Days</button>
                 </div>
             </div>
         </div>
@@ -265,6 +310,9 @@ function AssemblyFPY() {
                             {apiStatus === "connected" ? "LIVE" : apiStatus === "connecting" ? "CONNECTING..." : "ERROR"}
                         </span>
                         {lastUpdated && <span className="fpy-last-updated">Last updated: {lastUpdated}</span>}
+                        <span className="fpy-last-updated">
+                            Current time: {liveClock}
+                        </span>
                         {queryWindow && (
                             <span className="fpy-last-updated">
                                 Data window: {queryWindow.start} &rarr; {queryWindow.end}

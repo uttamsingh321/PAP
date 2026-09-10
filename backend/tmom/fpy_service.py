@@ -53,11 +53,17 @@ def get_fpy_data(
     """
     if not start_time or not end_time:
         now = datetime.now()
-        default_start = now.replace(hour=8, minute=0, second=0, microsecond=0) - timedelta(days=1)
-        default_end = now.replace(hour=8, minute=0, second=0, microsecond=0)
+        today_8am = now.replace(hour=8, minute=0, second=0, microsecond=0)
+        # Business-day window: 08:00 -> now
+        # If now >= 08:00 -> today 08:00 -> now
+        # If now <  08:00 -> yesterday 08:00 -> now
+        if now >= today_8am:
+            default_start = today_8am
+        else:
+            default_start = today_8am - timedelta(days=1)
+        default_end = now
         start_time = start_time or default_start.strftime("%Y-%m-%d %H:%M:%S")
         end_time = end_time or default_end.strftime("%Y-%m-%d %H:%M:%S")
-
     # Effective window actually sent to T-MOM (surfaced in the API response so
     # the frontend can display exactly which window the numbers cover).
     effective_start = start_time

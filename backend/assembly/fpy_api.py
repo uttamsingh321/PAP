@@ -78,7 +78,15 @@ def fpy_data(request):
             )
     elif error_type == 'tmom_error':
         status_code = 502
-        display_message = 'T-MOM API error (upstream). Details: ' + message
+        # T-MOM returns this when filters are valid but no data matches
+        # (e.g. work order has no production in the selected date window)
+        if '数据不存在' in message or 'not exist' in message.lower() or 'no data' in message.lower():
+            display_message = (
+                'No production data found for the selected filters in this date window. '
+                'Try widening the date range (e.g. Last 2 Days) or selecting a different work order.'
+            )
+        else:
+            display_message = 'T-MOM API error (upstream). Details: ' + message
     else:
         status_code = 500
         display_message = message or 'Internal error'
