@@ -1,0 +1,111 @@
+﻿.reports-container {
+    padding: 24px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.reports-header {
+    margin-bottom: 24px;
+}
+
+.reports-header h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #FFFFFF;
+}
+
+.reports-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-bottom: 24px;
+}
+
+.report-card {
+    background: #FFFFFF;
+    border-radius: 14px;
+    padding: 20px;
+    border: 1px solid #E5E7EB;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.report-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.report-card.selected {
+    border-color: #3B82F6;
+}
+
+.report-card h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #111827;
+    margin-bottom: 6px;
+}
+
+.report-card p {
+    font-size: 0.875rem;
+    color: #6B7280;
+}
+
+.report-config {
+    background: #FFFFFF;
+    border-radius: 14px;
+    padding: 20px;
+    border: 1px solid #E5E7EB;
+}
+
+.report-config h3 {
+    margin-bottom: 16px;
+    color: #111827;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.config-form {
+    display: flex;
+    gap: 20px;
+    align-items: flex-end;
+    flex-wrap: wrap;
+}
+
+.config-form .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.config-form label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #374151;
+}
+
+.config-form input,
+.config-form select {
+    padding: 8px 12px;
+    border: 1px solid #D1D5DB;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    color: #111827;
+    background: #F9FAFB;
+}
+
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+    .reports-container { padding: 16px; }
+    .report-config { padding: 14px; }
+    .config-form { flex-direction: column; align-items: stretch; gap: 12px; }
+    .config-form input,
+    .config-form select { width: 100%; }
+}
+
+@media (max-width: 480px) {
+    .reports-container { padding: 12px; }
+    .reports-grid { grid-template-columns: 1fr; gap: 12px; }
+    .report-card { padding: 14px; }
+}

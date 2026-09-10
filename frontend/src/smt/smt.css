@@ -1,0 +1,205 @@
+﻿.smt-container {
+    padding: 24px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.smt-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.smt-header h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #FFFFFF;
+}
+
+.smt-content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.smt-lines,
+.smt-machines,
+.smt-production,
+.smt-efficiency,
+.smt-downtime,
+.smt-defects,
+.smt-trends {
+    background: #FFFFFF;
+    border-radius: 14px;
+    padding: 20px;
+    border: 1px solid #E5E7EB;
+}
+
+.smt-lines h3,
+.smt-machines h3,
+.smt-production h3,
+.smt-efficiency h3,
+.smt-downtime h3,
+.smt-defects h3,
+.smt-trends h3 {
+    color: #111827;
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 16px;
+}
+
+.smt-charts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.chart-card {
+    background: #FFFFFF;
+    border-radius: 14px;
+    padding: 20px;
+    border: 1px solid #E5E7EB;
+}
+
+.chart-card h3 {
+    color: #111827;
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 16px;
+}
+
+.line-grid,
+.machine-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+    margin-top: 12px;
+}
+
+.line-card,
+.machine-item {
+    padding: 16px;
+    border-radius: 10px;
+    background: #F8FAFC;
+    border: 1px solid #E5E7EB;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.line-name,
+.machine-name {
+    font-weight: 600;
+    color: #111827;
+    font-size: 0.95rem;
+}
+
+.line-output,
+.line-efficiency,
+.machine-status {
+    color: #4B5563;
+    font-size: 0.875rem;
+}
+
+.machine-item.running {
+    border-left: 4px solid #10B981;
+}
+
+.machine-item.idle {
+    border-left: 4px solid #F59E0B;
+}
+
+.machine-item.maintenance {
+    border-left: 4px solid #EF4444;
+}
+
+.production-stats,
+.efficiency-grid,
+.downtime-summary,
+.defect-summary,
+.trends-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 12px;
+    margin-top: 12px;
+}
+
+.stat-item,
+.efficiency-item,
+.downtime-stat,
+.defect-stat,
+.trend-item {
+    padding: 14px;
+    background: #F8FAFC;
+    border-radius: 10px;
+    border: 1px solid #E5E7EB;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.stat-label,
+.metric-label,
+.trend-label {
+    color: #374151;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.stat-value,
+.metric-value {
+    color: #111827;
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.trend-value {
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.trend-value.positive {
+    color: #10B981;
+}
+
+.trend-value.negative {
+    color: #EF4444;
+}
+
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1023px) {
+    .smt-container { padding: 16px; }
+    .smt-header { flex-direction: column; align-items: flex-start; gap: 8px; }
+}
+
+@media (max-width: 600px) {
+    .smt-container { padding: 12px; }
+    .smt-lines,
+    .smt-machines,
+    .smt-production,
+    .smt-efficiency,
+    .smt-downtime,
+    .smt-defects,
+    .smt-trends,
+    .chart-card { padding: 14px; }
+    .line-grid,
+    .machine-grid { grid-template-columns: 1fr 1fr; }
+    .production-stats,
+    .efficiency-grid,
+    .downtime-summary,
+    .defect-summary,
+    .trends-grid { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 400px) {
+    .line-grid,
+    .machine-grid,
+    .production-stats,
+    .efficiency-grid,
+    .downtime-summary,
+    .defect-summary,
+    .trends-grid { grid-template-columns: 1fr; }
+}

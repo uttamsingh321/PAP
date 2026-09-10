@@ -1,0 +1,155 @@
+﻿* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --bg-primary: #0a0e1a;
+    --bg-secondary: #0f1629;
+    --bg-card: #151c30;
+    --bg-card-hover: #1a2240;
+    --bg-sidebar: #0d1120;
+    --bg-header: #0f1629;
+    --border-color: #1e2a45;
+    --border-subtle: #1a2540;
+    --accent-blue: #3b82f6;
+    --accent-blue-light: #60a5fa;
+    --accent-green: #10b981;
+    --accent-green-light: #34d399;
+    --accent-red: #ef4444;
+    --accent-red-light: #f87171;
+    --accent-amber: #f59e0b;
+    --accent-amber-light: #fbbf24;
+    --accent-purple: #8b5cf6;
+    --accent-purple-light: #a78bfa;
+    --text-primary: #ffffff;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+    --shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 6px 12px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 10px 20px rgba(0, 0, 0, 0.5);
+    --shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.6);
+    --radius-sm: 6px;
+    --radius: 10px;
+    --radius-lg: 14px;
+    --radius-xl: 18px;
+    --sidebar-width: 260px;
+    --sidebar-collapsed-width: 70px;
+    --header-height: 64px;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+}
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-secondary); }
+::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+
+.app { display: flex; min-height: 100vh; }
+
+.main-content {
+    flex: 1;
+    margin-left: var(--sidebar-width);
+    margin-top: var(--header-height);
+    padding: 24px;
+    min-height: calc(100vh - var(--header-height));
+    background: var(--bg-primary);
+    transition: margin-left 0.3s ease;
+}
+
+/* ===== GLOBAL RESPONSIVE STYLES ===== */
+
+/* Extra Large Screens (TVs, Projectors, 4K) */
+@media (min-width: 1920px) {
+    :root {
+        --sidebar-width: 300px;
+        --header-height: 72px;
+    }
+    .main-content { padding: 40px; }
+}
+
+/* Large Screens (Desktop, Laptop) */
+@media (max-width: 1919px) and (min-width: 1024px) {
+    :root {
+        --sidebar-width: 260px;
+        --header-height: 64px;
+    }
+}
+
+/* Medium Screens (Tablet Landscape) */
+@media (max-width: 1023px) and (min-width: 768px) {
+    :root {
+        --sidebar-width: 240px;
+        --header-height: 60px;
+    }
+    .main-content { padding: 20px; }
+}
+
+/* Small Screens (Tablet Portrait) */
+@media (max-width: 767px) and (min-width: 480px) {
+    :root {
+        --sidebar-width: 280px;
+        --header-height: 56px;
+    }
+    .main-content { margin-left: 0; padding: 16px; }
+}
+
+/* Extra Small Screens (Mobile) */
+@media (max-width: 479px) {
+    :root {
+        --sidebar-width: 280px;
+        --header-height: 52px;
+    }
+    .main-content { margin-left: 0; padding: 12px; }
+}
+
+/* Collapsed sidebar - desktop */
+@media (min-width: 1024px) {
+    .app.collapsed .main-content {
+        margin-left: var(--sidebar-collapsed-width);
+    }
+}
+
+
+/* ===== UNIVERSAL RESPONSIVE HELPERS ===== */
+
+/* Media elements must never exceed their container */
+img, svg, canvas, video, iframe {
+    max-width: 100%;
+}
+
+/* Recharts SVG wrappers must shrink with their card */
+.recharts-wrapper,
+.recharts-surface {
+    max-width: 100%;
+}
+
+/* Prevent flex children (page containers) from forcing page-wide scroll */
+.main-content {
+    min-width: 0;
+    width: 100%;
+}
+
+/* Stop Android font boosting so breakpoints behave predictably */
+html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+}
+
+/* Small screens: inputs at >=16px prevent iOS auto-zoom on focus */
+@media (max-width: 767px) {
+    input,
+    select,
+    textarea {
+        font-size: 16px;
+    }
+}

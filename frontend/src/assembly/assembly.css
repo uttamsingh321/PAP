@@ -1,0 +1,217 @@
+﻿.assembly-container {
+    padding: 24px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.assembly-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.assembly-header h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #FFFFFF;
+}
+
+.assembly-content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.assembly-lines,
+.assembly-machines,
+.assembly-production,
+.assembly-efficiency,
+.assembly-downtime,
+.assembly-defects,
+.assembly-trends {
+    background: #FFFFFF;
+    border-radius: 14px;
+    padding: 20px;
+    border: 1px solid #E5E7EB;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.assembly-lines h3,
+.assembly-machines h3,
+.assembly-production h3,
+.assembly-efficiency h3,
+.assembly-downtime h3,
+.assembly-defects h3,
+.assembly-trends h3 {
+    color: #111827;
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 16px;
+}
+
+.line-grid,
+.machine-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+    margin-top: 12px;
+}
+
+.line-card,
+.machine-item {
+    padding: 16px;
+    border-radius: 10px;
+    background: #F8FAFC;
+    border: 1px solid #E5E7EB;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.line-name,
+.machine-name {
+    font-weight: 600;
+    color: #111827;
+    font-size: 0.95rem;
+}
+
+.line-output,
+.line-efficiency,
+.machine-status {
+    color: #4B5563;
+    font-size: 0.875rem;
+}
+
+.machine-item.running {
+    border-left: 4px solid #10B981;
+}
+
+.machine-item.idle {
+    border-left: 4px solid #F59E0B;
+}
+
+.machine-item.maintenance {
+    border-left: 4px solid #EF4444;
+}
+
+.assembly-charts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.chart-card {
+    background: #FFFFFF;
+    border-radius: 14px;
+    padding: 20px;
+    border: 1px solid #E5E7EB;
+}
+
+.chart-card h3 {
+    color: #111827;
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 16px;
+}
+
+.production-stats,
+.efficiency-grid,
+.downtime-summary,
+.defect-summary,
+.trends-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 12px;
+    margin-top: 12px;
+}
+
+.stat-item,
+.efficiency-item,
+.downtime-stat,
+.defect-stat,
+.trend-item {
+    padding: 14px;
+    background: #F8FAFC;
+    border-radius: 10px;
+    border: 1px solid #E5E7EB;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.stat-label,
+.metric-label,
+.trend-label {
+    color: #374151;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.stat-value,
+.metric-value {
+    color: #111827;
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.trend-value {
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.trend-value.positive {
+    color: #10B981;
+}
+
+.trend-value.negative {
+    color: #EF4444;
+}
+
+.loading {
+    text-align: center;
+    padding: 60px;
+    color: #94A3B8;
+}
+
+@media (max-width: 768px) {
+    .assembly-container {
+        padding: 16px;
+    }
+    .assembly-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+    .line-grid,
+    .machine-grid,
+    .production-stats,
+    .efficiency-grid,
+    .downtime-summary,
+    .defect-summary,
+    .trends-grid {
+        grid-template-columns: 1fr;
+    }
+}
+.assembly-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.fpy-nav-link {
+    padding: 8px 16px;
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.fpy-nav-link:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+}
