@@ -7,6 +7,7 @@ import Login from './authentication/Login';
 import MainDashboard from './main_dashboard/MainDashboard';
 import Assembly from './assembly/Assembly';
 import AssemblyFPY from './assembly/AssemblyFPY';
+import NgNdfPage from './assembly/NgNdfPage';
 import SMT from './smt/SMT';
 import RBC from './rbc/RBC';
 import Reports from './reports/Reports';
@@ -30,6 +31,7 @@ function AppLayout() {
                     <Route path="/" element={<MainDashboard />} />
                     <Route path="/assembly" element={<Assembly />} />
                     <Route path="/assembly/fpy" element={<AssemblyFPY />} />
+                    <Route path="/ng-ndf" element={<NgNdfPage />} />
                     <Route path="/smt" element={<SMT />} />
                     <Route path="/rbc" element={<RBC />} />
                     <Route path="/reports" element={<Reports />} />

@@ -24,10 +24,12 @@ Architecture:
 """
 
 from .fpy_service import get_fpy_data
+from .ng_ndf_service import get_ng_ndf_matrix
 from .tmom_client import TMOMError, TMOMAuthenticationError, TMOMConnectionError, TMOMTimeoutError
 
 __all__ = [
     'get_fpy_data',
+    'get_ng_ndf_matrix',
     'TMOMError',
     'TMOMAuthenticationError',
     'TMOMConnectionError',

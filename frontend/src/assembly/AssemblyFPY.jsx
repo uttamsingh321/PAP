@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo, useCallback } from "react";
+import { Link } from "react-router-dom";
 import { BarChart, Bar, LineChart, Line, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
 const API_BASE_URL = "/api/assembly/fpy";
 import "./AssemblyFPY.css";
@@ -224,12 +225,19 @@ function AssemblyFPY() {
         }
     }, []);
 
+    // Initial load only (mount): preserve existing default business-day window fetch.
+    // After this, filter edits NEVER auto-fetch — user must click "Show Data".
     useEffect(() => { fetchData(resetFilters()); }, []); // eslint-disable-line
 
+    // Filter edits only update UI state. No API call here by design.
     const setFilter = (key, value) => {
         const next = { ...filters, [key]: value };
         setFilters(next);
-        fetchData(next);
+    };
+
+    // Explicit user action: read all current filter values and fetch fresh LIVE T-MOM data.
+    const handleShowData = () => {
+        fetchData(filters);
     };
 
     const clearAll = () => { const f = resetFilters(); setFilters(f); fetchData(f); };
@@ -290,10 +298,11 @@ function AssemblyFPY() {
                 <h3>No FPY data found for the selected filters.</h3>
                 <p>Try widening the date window or clearing filters, then refresh.</p>
                 <div className="fpy-header-actions">
+                    <Link to="/ng-ndf" className="fpy-btn fpy-btn-secondary fpy-btn-ngndf">NG% / NDF% Comparison</Link>
                     <button className="fpy-btn fpy-btn-outline" onClick={clearAll}>Clear Filters</button>
-                    <button className="fpy-btn fpy-btn-primary" onClick={() => fetchData(filters)}>Refresh</button>
-                    <button className="fpy-btn fpy-btn-outline" onClick={() => { const w = businessDayWindow(); setFilters({ ...filters, startTime: w.startTime, endTime: w.endTime }); fetchData({ ...filters, startTime: w.startTime, endTime: w.endTime }); }}>Today</button>
-                    <button className="fpy-btn fpy-btn-outline" onClick={() => { const w = last2DaysWindow(); setFilters({ ...filters, startTime: w.startTime, endTime: w.endTime }); fetchData({ ...filters, startTime: w.startTime, endTime: w.endTime }); }}>Last 2 Days</button>
+                    <button className="fpy-btn fpy-btn-primary" onClick={handleShowData}>Show Data</button>
+                    <button className="fpy-btn fpy-btn-outline" onClick={() => { const w = businessDayWindow(); setFilters({ ...filters, startTime: w.startTime, endTime: w.endTime }); }}>Today</button>
+                    <button className="fpy-btn fpy-btn-outline" onClick={() => { const w = last2DaysWindow(); setFilters({ ...filters, startTime: w.startTime, endTime: w.endTime }); }}>Last 2 Days</button>
                 </div>
             </div>
         </div>
@@ -321,12 +330,13 @@ function AssemblyFPY() {
                     </div>
                 </div>
                 <div className="fpy-header-actions">
+                    <Link to="/ng-ndf" className="fpy-btn fpy-btn-secondary fpy-btn-ngndf">NG% / NDF% Comparison</Link>
                     <button className="fpy-btn fpy-btn-secondary" onClick={clearAll}>View All Data</button>
-                    <button className="fpy-btn fpy-btn-primary" onClick={() => fetchData(filters)}>Refresh</button>
+                    <button className="fpy-btn fpy-btn-primary" onClick={handleShowData}>Show Data</button>
                 </div>
             </div>
 
-            {/* Filter Bar: every change triggers a real API call with filters forwarded to T-MOM */}
+            {/* Filter Bar: edits update UI state only; click "Show Data" to fetch fresh LIVE T-MOM data */}
             <div className="fpy-filter-bar">
                 <div className="fpy-filter-group">
                     <label>Process Name</label>
@@ -371,6 +381,7 @@ function AssemblyFPY() {
                         onChange={e => setFilter("endTime", toApiDT(e.target.value))} />
                 </div>
                 <button className="fpy-btn fpy-btn-outline" onClick={clearAll}>Clear Filters</button>
+                <button className="fpy-btn fpy-btn-primary" onClick={handleShowData}>Show Data</button>
                 {!filters.workOrder && (
                     <p className="fpy-filter-hint">
                         Note: without a Work Order, T-MOM returns project/process-level totals.

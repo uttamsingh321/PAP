@@ -628,3 +628,16 @@
 @media (min-width: 1600px) {
     .fpy-container { max-width: 1600px; margin: 0 auto; }
 }
+
+/* NG% / NDF% Comparison header button (link to standalone /ng-ndf page) */
+.fpy-btn-ngndf {
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    border-color: #2563eb;
+    color: #ffffff;
+}
+
+.fpy-btn-ngndf:hover {
+    background: linear-gradient(135deg, #60a5fa, #3b82f6);
+    border-color: #3b82f6;
+}
+

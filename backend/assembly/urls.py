@@ -1,6 +1,7 @@
 ﻿from django.urls import path
 from . import views
 from .fpy_api import fpy_data
+from .ng_ndf_api import ng_ndf_data
 
 urlpatterns = [
     path('', views.assembly_view, name='assembly'),
@@ -13,4 +14,5 @@ urlpatterns = [
     path('trends/', views.trend_data, name='trend-data'),
     path('charts/', views.chart_data, name='chart-data'),
     path('fpy/', fpy_data, name='fpy-data'),
+    path('ng-ndf/', ng_ndf_data, name='ng-ndf-data'),
 ]

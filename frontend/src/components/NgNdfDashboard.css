@@ -1,0 +1,433 @@
+/* NG% / NDF% Comparison dashboard — light theme consistent with FPY page. */
+
+.ngndf-dashboard {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* ---------------- Status line ---------------- */
+.ngndf-status-line {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    font-size: 12px;
+    color: #6b7280;
+    padding: 8px 12px;
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+}
+
+.ngndf-refresh-btn {
+    padding: 4px 12px;
+    border-radius: 6px;
+    border: 1px solid #d1d5db;
+    background: #fff;
+    color: #374151;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.ngndf-refresh-btn:hover {
+    background: #f3f4f6;
+    border-color: #3b82f6;
+    color: #1e40af;
+}
+
+/* ---------------- Group headings + card grids ---------------- */
+.ngndf-group {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.ngndf-group-heading h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #111827;
+    margin: 0 0 2px 0;
+}
+
+.ngndf-group-heading p {
+    font-size: 13px;
+    color: #6b7280;
+    margin: 0;
+}
+
+.ngndf-card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 12px;
+}
+
+.ngndf-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    padding: 16px;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    background: #fff;
+    text-align: left;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.2s;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+    font-family: inherit;
+}
+
+.ngndf-card:hover {
+    border-color: #3b82f6;
+    box-shadow: 0 6px 16px rgba(59, 130, 246, 0.12);
+    transform: translateY(-2px);
+}
+
+.ngndf-card:focus-visible {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+}
+
+.ngndf-card-badge {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    padding: 2px 8px;
+    border-radius: 20px;
+    text-transform: uppercase;
+}
+
+.ngndf-card-station .ngndf-card-badge {
+    background: #eff6ff;
+    color: #1d4ed8;
+}
+
+.ngndf-card-project .ngndf-card-badge {
+    background: #ecfdf5;
+    color: #047857;
+}
+
+.ngndf-card-name {
+    font-size: 18px;
+    font-weight: 700;
+    color: #111827;
+}
+
+.ngndf-card-meta {
+    font-size: 12px;
+    color: #6b7280;
+    min-height: 16px;
+}
+
+.ngndf-card-arrow {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    color: #9ca3af;
+    font-size: 16px;
+    transition: transform 0.2s, color 0.2s;
+}
+
+.ngndf-card:hover .ngndf-card-arrow {
+    color: #3b82f6;
+    transform: translateX(3px);
+}
+/* ---------------- Detail view ---------------- */
+.ngndf-detail-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.ngndf-back-btn {
+    padding: 8px 14px;
+    border-radius: 8px;
+    border: 1px solid #d1d5db;
+    background: #fff;
+    color: #374151;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.ngndf-back-btn:hover {
+    background: #f3f4f6;
+    border-color: #3b82f6;
+    color: #1e40af;
+}
+
+.ngndf-detail-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.ngndf-detail-badge {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    background: #eff6ff;
+    color: #1d4ed8;
+}
+
+.ngndf-detail-title h3 {
+    font-size: 22px;
+    font-weight: 700;
+    color: #111827;
+    margin: 0;
+}
+
+.ngndf-detail-meta {
+    font-size: 12px;
+    color: #6b7280;
+}
+
+/* Info panel */
+.ngndf-info-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 16px;
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+}
+
+.ngndf-info-item {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.ngndf-info-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #6b7280;
+    min-width: 80px;
+}
+
+.ngndf-info-value {
+    font-size: 14px;
+    color: #111827;
+    font-weight: 500;
+}
+
+/* Charts side by side */
+.ngndf-charts-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+
+.ngndf-chart-card,
+.ngndf-table-card {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 16px;
+}
+
+.ngndf-chart-card h4,
+.ngndf-table-card h4 {
+    font-size: 14px;
+    font-weight: 600;
+    color: #111827;
+    margin: 0 0 12px 0;
+}
+
+/* Tables below charts */
+.ngndf-tables-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+
+.ngndf-data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+.ngndf-data-table th,
+.ngndf-data-table td {
+    text-align: left;
+    padding: 9px 12px;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.ngndf-data-table th {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #6b7280;
+    background: #f9fafb;
+}
+
+.ngndf-data-table td {
+    color: #111827;
+}
+
+.ngndf-data-table tbody tr:hover {
+    background: #f9fafb;
+}
+
+.ngndf-cell-empty {
+    color: #9ca3af;
+}
+
+/* ---------------- Loading / error ---------------- */
+.ngndf-loading,
+.ngndf-error {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 40px;
+    text-align: center;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+}
+
+.ngndf-loading-spinner {
+    width: 28px;
+    height: 28px;
+    border: 3px solid #e5e7eb;
+    border-top-color: #3b82f6;
+    border-radius: 50%;
+    animation: ngndf-spin 0.8s linear infinite;
+}
+
+@keyframes ngndf-spin {
+    to { transform: rotate(360deg); }
+}
+
+.ngndf-loading p,
+.ngndf-error p {
+    font-size: 13px;
+    color: #6b7280;
+    margin: 0;
+}
+
+.ngndf-error h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #111827;
+    margin: 0;
+}
+
+.ngndf-error-icon {
+    font-size: 34px;
+}
+
+.ngndf-btn {
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: none;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.ngndf-btn-primary {
+    background: #3b82f6;
+    color: #fff;
+}
+
+.ngndf-btn-primary:hover {
+    background: #2563eb;
+}
+
+/* ---------------- Responsive ---------------- */
+@media (max-width: 768px) {
+    .ngndf-charts-grid,
+    .ngndf-tables-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .ngndf-card-grid {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    }
+}
+
+@media (max-width: 480px) {
+    .ngndf-detail-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+/* ---------------- Standalone page wrapper (route /ng-ndf) ---------------- */
+.ngndf-page {
+    padding: 24px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.ngndf-page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.ngndf-page-title h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0;
+}
+
+.ngndf-page-subtitle {
+    font-size: 0.85rem;
+    color: #94a3b8;
+    margin: 4px 0 0 0;
+}
+
+.ngndf-page-back {
+    display: inline-block;
+    padding: 10px 18px;
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 8px;
+    color: #e2e8f0;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.2s, border-color 0.2s;
+}
+
+.ngndf-page-back:hover {
+    background: #334155;
+    border-color: #475569;
+    color: #ffffff;
+}
+
+@media (max-width: 768px) {
+    .ngndf-page {
+        padding: 12px;
+    }
+    .ngndf-page-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+}
